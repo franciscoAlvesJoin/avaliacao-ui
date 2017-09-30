@@ -45,12 +45,10 @@ export class EnderecoService {
 
 
   listarCidades(geonameId: string): Promise<any> {
-    console.log(`http://www.geonames.org/childrenJSON?geonameId=${geonameId}`);
     return this.http.get(`http://www.geonames.org/childrenJSON?geonameId=${geonameId}`)
       .toPromise()
       .then(response => {
         const cidadesGeo = response.json();
-        console.log(cidadesGeo);
         const cidades = [];
 
         for (const citgeo of cidadesGeo.geonames){

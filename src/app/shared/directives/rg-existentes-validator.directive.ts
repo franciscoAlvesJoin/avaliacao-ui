@@ -1,5 +1,5 @@
+import { PessoaService } from './../../pessoas/pessoa.service';
 import { Observable } from 'rxjs/Observable';
-import { PessoaService } from './pessoa.service';
 import { Input } from '@angular/core';
 import { Directive, OnInit, ViewChild } from '@angular/core';
 import { NG_ASYNC_VALIDATORS } from '@angular/forms';

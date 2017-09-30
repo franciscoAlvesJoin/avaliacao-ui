@@ -1,4 +1,4 @@
-import { URLSearchParams, Http } from '@angular/http';
+import { URLSearchParams, Http, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
 
 
@@ -67,14 +67,19 @@ export class PessoaService {
 
 
   adicionar(pessoa: Pessoa): Promise<Pessoa> {
-    return this.http.post(this.pessoasUrl, JSON.stringify(pessoa))
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post(this.pessoasUrl,
+       JSON.stringify(pessoa), { headers })
       .toPromise()
       .then(response => response.json());
   }
 
   atualizar(pessoa: Pessoa): Promise<Pessoa> {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
     return this.http.put(`${this.pessoasUrl}/${pessoa.codigo}`,
-        JSON.stringify(pessoa))
+        JSON.stringify(pessoa), {headers})
       .toPromise()
       .then(response => {
         const pess = response.json() as Pessoa

@@ -139,9 +139,7 @@ export class PessoaCadastroComponent implements OnInit {
     this.enderecoService.listarUFs()
       .then(ufs => {
         this.ufs = ufs;
-        console.log(ufs);
         if (this.editando) {
-          console.log(this.pessoa.endereco.uf);
           this.onChangeUf(this.pessoa.endereco.uf);
         }
       })

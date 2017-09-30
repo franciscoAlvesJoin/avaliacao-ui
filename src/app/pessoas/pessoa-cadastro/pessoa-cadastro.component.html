@@ -17,7 +17,7 @@
         <label>{{ tipo.value === 'F' ? 'Nome' : 'Razão Social' }}</label>
         <input pInputText type="text" name="nome"
           [(ngModel)]="pessoa.nome"
-          #nome="ngModel" required minlength="5">
+          #nome="ngModel" required minlength="5" maxlength="75">
 
         <app-message [control]="nome" error="required"
           text="Informe o nome"></app-message>

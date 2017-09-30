@@ -1,8 +1,3 @@
-import { RgMaskPipe } from './rg-mask.pipe';
-import { CpfMaskPipe } from './cpf-mask.pipe';
-import { RgExistentesValidatorDirective } from './rg-existentes-validator.directive';
-import { CpfCnpjExistentesValidatorDirective } from './cpfCnpj-existentes-validator.directive';
-
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
@@ -46,12 +41,8 @@ import { CpfCnpjModule } from 'ng2-cpf-cnpj';
   ],
   declarations: [
     PessoaCadastroComponent,
-    PessoasPesquisaComponent,
-    CpfCnpjExistentesValidatorDirective,
-    RgExistentesValidatorDirective,
-    CpfMaskPipe,
-    RgMaskPipe
-  ],
+    PessoasPesquisaComponent
+    ],
   exports: []
 })
 export class PessoasModule { }
