@@ -1,0 +1,114 @@
+<div class="container">
+  <form #f="ngForm" autocomplete="off" (ngSubmit)="salvar(f)">
+
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <h1> {{ editando ? 'Edição de' : 'Nova' }} Pessoa {{ tipo.value === 'F' ? 'Física' : 'Jurídica' }}</h1>
+      </div>
+
+
+      <div class="ui-g-12">
+        <p-selectButton name="tipo" [options]="tipos"
+          [(ngModel)]="pessoa.tipo" (onChange)="limparFisicaJurica()"
+          #tipo></p-selectButton>
+      </div>
+
+      <div class="ui-g-12 ui-fluid">
+        <label>{{ tipo.value === 'F' ? 'Nome' : 'Razão Social' }}</label>
+        <input pInputText type="text" name="nome"
+          [(ngModel)]="pessoa.nome"
+          #nome="ngModel" required minlength="5">
+
+        <app-message [control]="nome" error="required"
+          text="Informe o nome"></app-message>
+        <app-message [control]="nome" error="minlength"
+          text="Mínimo de {{ nome.errors?.minlength?.requiredLength }} caracteres"></app-message>
+      </div>
+
+      <div class="ui-g-12 ui-md-4 ui-fluid">
+        <label>{{ tipo.value === 'F' ? 'Data Nascimento' : 'Fundação' }} </label>
+        <p-calendar name="dataNascFund" [locale]="pt_BR" dateFormat="dd/mm/yy"
+          [inline]="false" [readonlyInput]="false" [showIcon]="false"
+          [(ngModel)]="pessoa.dataNascFund"
+          #dataNascFund="ngModel" required></p-calendar>
+
+        <app-message [control]="dataNascFund" error="required"
+          text="Informe uma data de nascimento"></app-message>
+      </div>
+
+      <div *ngIf="tipo.value === 'F'" class="ui-g-12 ui-md-4 ui-fluid">
+        <label>CPF</label>
+
+        <input  pInputText type="text"  name="cpf" [(ngModel)]="cpf" [cpf]="cpf" #cpfInput="ngModel"
+        required  [textMask]="{mask: maskCPF}" [cpfCnpjExistente]="'cpf'" [cpfCnpjEdicao]="cpfCnpjEdicao" />
+
+        <app-message [control]="cpfInput" error="required"
+        text="Informe um CPF"></app-message>
+        <app-message [control]="cpfInput" error="cpf"
+        text="Informe CPF Valido"></app-message>
+        <app-message [control]="cpfInput" error="cpfCnpjExistente"
+        text="CPF informado, Já esta cadastrado."></app-message>
+      </div>
+
+      <div *ngIf="tipo.value === 'J'" class="ui-g-12 ui-md-4 ui-fluid">
+
+        <label>CNPJ</label>
+        <input pInputText type="text" name="cnpj" [(ngModel)]="cnpj" [cnpj]="cnpj" #cnpjInput="ngModel"
+        required  [textMask]="{mask: maskCNPJ}" [cpfCnpjExistente]="'cnpj'" [cpfCnpjEdicao]="cpfCnpjEdicao"/>
+
+        <app-message [control]="cnpjInput" error="required"
+        text="Informe um CNPJ"></app-message>
+        <app-message [control]="cnpjInput" error="cnpj"
+        text="Informe CNPJ Valido"></app-message>
+        <app-message [control]="cnpjInput" error="cpfCnpjExistente"
+        text="CNPJ informado, já esta cadastrado."></app-message>
+      </div>
+
+
+      <div *ngIf="tipo.value === 'F'" class="ui-g-12 ui-md-4 ui-fluid">
+        <label>RG</label>
+        <p-inputMask name="rg" #rg="ngModel" [(ngModel)]="pessoa.rg"
+        mask="99.999.999-9" required rgExistente [rgEdicao]="rgEdicao"></p-inputMask>
+
+        <app-message [control]="rg" error="required"
+        text="Informe um RG"></app-message>
+        <app-message [control]="rg" error="rgExistente"
+        text="RG Informado, já esta cadastrado."></app-message>
+
+
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-fluid">
+        <label>UF</label>
+        <p-dropdown  name="uf" [options]="ufs" [autoWidth]="false" [filter]="true" placeholder="Selecione"
+          [(ngModel)]="pessoa.endereco.uf" (onChange)="onChangeUf($event.value)"
+          #uf="ngModel" required></p-dropdown>
+
+        <app-message [control]="uf" error="required"
+          text="Informe o UF"></app-message>
+      </div>
+
+
+      <div class="ui-g-12 ui-md-6 ui-fluid">
+        <label>Municipo</label>
+        <p-dropdown name="municipio" [disabled]="!pessoa.endereco.uf"
+          [(ngModel)]="pessoa.endereco.municipio"
+          [options]="municipios" [autoWidth]="false" [filter]="true" placeholder="Selecione"
+          #municipio="ngModel" required ></p-dropdown>
+
+        <app-message [control]="municipio" error="required"
+          text="Informe o municipio"></app-message>
+      </div>
+
+
+      <div class="ui-g-12">
+        <button pButton type="submit" label="Salvar" [disabled]="f.invalid"></button>
+        <button pButton type="button" label="Nova" class="ui-button-info"
+          (click)="nova(f)"></button>
+
+        <a routerLink="/pessoas">Voltar para a pesquisa</a>
+      </div>
+    </div>
+
+  </form>
+</div>

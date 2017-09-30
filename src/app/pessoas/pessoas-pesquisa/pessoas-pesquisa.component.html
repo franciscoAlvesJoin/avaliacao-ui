@@ -1,0 +1,77 @@
+<div class="container">
+  <div class="ui-g">
+
+    <form autocomplete="off" (ngSubmit)="pesquisar()">
+
+      <div class="ui-g-12">
+        <h1>Pessoas</h1>
+      </div>
+
+      <div class="ui-g-12 ui-fluid">
+        <label>Nome</label>
+        <input pInputText type="text" name="nome" [(ngModel)]="filtro.nome">
+      </div>
+
+      <div class="ui-g-12">
+        <button pButton type="submit" label="Pesquisar"></button>
+      </div>
+
+    </form>
+
+  </div>
+
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <p-dataTable [value]="pessoas" [responsive]="true"
+        emptyMessage="Nenhuma pessoa encontrada"
+        [paginator]="true" [rows]="filtro.itensPorPagina"
+        [lazy]="true" [totalRecords]="totalRegistros"
+        (onLazyLoad)="aoMudarPagina($event)"
+
+        #tabela>
+          <p-column field="nome" header="Nome"></p-column>
+          <p-column header="Data" styleClass="col-data">
+            <ng-template let-pess="rowData" pTemplate="body">
+                <span>{{ pess.dataNascFund | date:'dd/MM/yyyy' }}</span>
+            </ng-template>
+        </p-column>
+
+        <p-column header="CPF/ CNPJ" styleClass="col-center">
+          <ng-template let-pess="rowData" pTemplate="body">
+              <span>{{pess.cpfCnpj | cpfMaskPipe}} </span>
+          </ng-template>
+        </p-column>
+
+        <p-column header="RG" styleClass="col-data">
+          <ng-template let-pess="rowData" pTemplate="body">
+              <span>{{pess.rg ? (pess.rg | rgMaskPipe ) : "-" }} </span>
+          </ng-template>
+        </p-column>
+
+          <p-column field="tipo" header="Tipo" styleClass="col-data">
+            <ng-template let-pess="rowData" pTemplate="body">
+              <span>{{pess.tipo != null && pess.tipo === 'F' ? 'Física': 'Jurídica' }} </span>
+          </ng-template>
+          </p-column>
+          <p-column field="endereco.municipio" header="Municipio" ></p-column>
+          <p-column field="endereco.uf" header="UF" ></p-column>
+
+          <p-column styleClass="col-acoes">
+            <ng-template let-pes="rowData" pTemplate="body">
+              <a pButton icon="fa-pencil"
+                pTooltip="Editar" tooltipPosition="top"
+                [routerLink]="['/pessoas', pes.codigo]"></a>
+              <button pButton icon="fa-trash"
+                pTooltip="Excluir" tooltipPosition="top"
+                (click)="confirmarExclusao(pes)"></button>
+            </ng-template>
+          </p-column>
+      </p-dataTable>
+    </div>
+
+    <div class="ui-g-12">
+      <a pButton label="Nova Pessoa" routerLink="/pessoas/nova"></a>
+    </div>
+  </div>
+
+</div>
